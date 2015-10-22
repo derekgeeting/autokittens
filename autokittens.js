@@ -1053,4 +1053,37 @@ function mintCalculator() {
   return result;
 }
 
+var skip = function(min, sec) {
+
+  // if we click skip while paused, we want to
+  // remember that and re-set it
+  var wasPaused = gamePage.wasPaused;
+
+  // unpause the game so tick() operates properly
+  gamePage.isPaused = false;
+
+  // should replace 5 with gamePage.rate but it doesn't
+  // seem to change anyway, so whatevs
+  var tix = (min * 60 + sec) * 5;
+
+  // run the loop tix number of times
+  while(tix --> 0) {
+    // perform the tick
+    gamePage.tick();
+
+    // i kept killing my kittens, so i put this in here
+    // to protect me a little bit - it's just a general safeguard
+    var food = gamePage.resPool.get('catnip');
+    if(food.value / food.maxValue < 0.05) {
+      gamePage.isPaused = true;
+      alert('warning: food low - aborting early');
+      return;
+    }
+  }
+
+  // assuming we didn't return early because of
+  // a famine, return the game's paused state to
+  // whatever it was when we started
+  gamePage.isPaused = wasPaused;
+}
 // vim:expandtab
