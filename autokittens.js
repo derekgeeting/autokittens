@@ -1053,7 +1053,7 @@ function mintCalculator() {
   return result;
 }
 
-var skip = function(min, sec) {
+window.skip = function(min, sec) {
 
   // if we click skip while paused, we want to
   // remember that and re-set it
